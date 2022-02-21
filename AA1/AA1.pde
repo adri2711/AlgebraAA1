@@ -21,7 +21,7 @@ void draw() {
   //Initialize vectors
   PVector posVector = new PVector(PlayerPos.x - NPCPos.x,PlayerPos.y - NPCPos.y);
   PVector nVector = new PVector(0,0);
-  float magnitude = sqrt(posVector.x * posVector.x + posVector.y * posVector.y);
+  float magnitude = sqrt(pow(posVector.x,2) + pow(posVector.y,2));
 
   //Normalize
   nVector.x = posVector.x / magnitude; 
