@@ -11,25 +11,36 @@ void setup() {
 
 void draw() {
   background(1);
-  float speed = 0.03; //Alpha
+  float speed = 7; //Alpha
   float collisionMargin = 19; //Epsilon
-  PVector NPCPosNormalised = new PVector(NPCPos.x - PlayerPos.x,NPCPos.y - PlayerPos.y);
-  NPCPosNormalised.x = NPCPosNormalised.x / sqrt(pow(NPCPosNormalised.x,2)+pow(NPCPosNormalised.y,2)); 
-  NPCPosNormalised.y = NPCPosNormalised.y / sqrt(pow(NPCPosNormalised.x,2)+pow(NPCPosNormalised.y,2)); 
   
+  //Obtain player position
   PlayerPos.x = mouseX;
   PlayerPos.y = mouseY;
   
-  NPCPos.x = PlayerPos.x + speed * NPCPos.x;
+  //Initialize vectors
+  PVector posVector = new PVector(PlayerPos.x - NPCPos.x,PlayerPos.y - NPCPos.y);
+  PVector nVector = new PVector(0,0);
+  float magnitude = sqrt(posVector.x * posVector.x + posVector.y * posVector.y);
+
+  //Normalize
+  nVector.x = posVector.x / magnitude; 
+  nVector.y = posVector.y / magnitude; 
   
+  //Calculate next NPC position
+  NPCPos.x = NPCPos.x + speed * nVector.x;
+  NPCPos.y = NPCPos.y + speed * nVector.y;
+  
+  //Calculate collision
   if (abs(NPCPos.x - PlayerPos.x) < collisionMargin && abs(NPCPos.y - PlayerPos.y) < collisionMargin) {
     stroke(255,20,100);
   }
   else {
     stroke(150,50,50);
   }
-  ellipse(NPCPosNormalised.x,NPCPosNormalised.y,10,10);
   
+  //Draw
+  ellipse(NPCPos.x,NPCPos.y,10,10);
   stroke(100,200,50);
   ellipse(PlayerPos.x,PlayerPos.y,10,10);
 
