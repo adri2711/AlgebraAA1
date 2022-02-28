@@ -1,6 +1,6 @@
 class Entity {
-  final int maxSpeed = 2;
-  final int minSpeed = 2;
+  final int maxSpeed = 4;
+  final int minSpeed = 3;
   float radius;
   float speed; //Alpha
   PVector Pos;
