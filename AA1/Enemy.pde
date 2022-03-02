@@ -31,13 +31,16 @@ class Enemy extends Entity{
     
     if (magnitude < target.radius+radius) {
       stroke(255, 20, 100);
+      fill(255, 20, 100);
     } else {
       stroke(150, 50, 50);
+      fill(150, 50, 50);
     }
     
   }
 
   void Draw() {
+    strokeWeight(5);
     ellipse(Pos.x, Pos.y, 10, 10);
   }
   

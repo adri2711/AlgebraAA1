@@ -25,12 +25,12 @@ class Obstacle{
     PVector points[];
   
     switch(shape){
-      case '0':
+      case 0:
           strokeWeight(random(15, 30));
           point(random(width + 1), random(height + 1));
           break;
           
-      case '1':
+      case 1:
           points = DrawShapes(3, 15);
           translate(random(width + 1), random(height + 1));
           rotate(random(361));
@@ -38,7 +38,7 @@ class Obstacle{
           //Triangle
           break;
           
-      case '2':
+      case 2:
           //points = DrawShapes(4, 15);
           translate(random(width + 1), random(height + 1));
           rotate(random(361));

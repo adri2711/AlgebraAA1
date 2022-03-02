@@ -11,10 +11,13 @@ class Player extends Entity {
   }
   
   void Draw() {
+    strokeWeight(5);
     stroke(50,100,200);
+    fill(50,100,200);
     ellipse(Pos.x, Pos.y, 15, 15);
     
-    stroke((100-health)*2,health*2,50);
+    stroke((100-health)+120,health+120,50);
+    fill((100-health)+120,health+120,50);    
     line(Pos.x-20,Pos.y+20,Pos.x-20+health/2.5,Pos.y+20);
   }
   
