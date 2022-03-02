@@ -1,47 +1,42 @@
-PVector PlayerPos,NPCPos;
+final int enemyNum = 10;
+final int obstacleNum = 5;
+Enemy[] enemy = new Enemy[enemyNum];
+Obstacle[] obstacle = new Obstacle[obstacleNum];
+Player player;
 
 void setup() {
-  size(1920, 1080);
+  size(1080, 720);
   background(1);
   strokeWeight(10);
   
-  NPCPos = new PVector(random(width), random(height));
-  PlayerPos = new PVector(mouseX,mouseY);
+  player = new Player(100,5,7);
+  
+  for (int i = 0; i < enemyNum; i++) {
+    enemy[i] = new Enemy(i%3);
+  }
+    
+  for (int i = 0; i < obstacleNum; i++) {
+    obstacle[i] = new Obstacle(i%3);
+  }
 }
 
 void draw() {
   background(1);
-  float speed = 7; //Alpha
-  float collisionMargin = 19; //Epsilon
   
-  //Obtain player position
-  PlayerPos.x = mouseX;
-  PlayerPos.y = mouseY;
+  //Handle player
+  player.Move(new PVector(mouseX,mouseY));
+  player.Draw();
   
-  //Initialize vectors
-  PVector posVector = new PVector(PlayerPos.x - NPCPos.x,PlayerPos.y - NPCPos.y);
-  PVector nVector = new PVector(0,0);
-  float magnitude = sqrt(pow(posVector.x,2) + pow(posVector.y,2));
-
-  //Normalize
-  nVector.x = posVector.x / magnitude; 
-  nVector.y = posVector.y / magnitude; 
-  
-  //Calculate next NPC position
-  NPCPos.x = NPCPos.x + speed * nVector.x;
-  NPCPos.y = NPCPos.y + speed * nVector.y;
-  
-  //Calculate collision
-  if (abs(NPCPos.x - PlayerPos.x) < collisionMargin && abs(NPCPos.y - PlayerPos.y) < collisionMargin) {
-    stroke(255,20,100);
+  //Handle enemies
+  for (int i = 0; i < enemyNum; i++) { 
+    enemy[i].Move(player.returnPos());
+    enemy[i].CheckCollision(player);
+    enemy[i].Draw();
   }
-  else {
-    stroke(150,50,50);
+    
+  //Handle obstacles
+  for (int i = 0; i < obstacleNum; i++) { 
+
   }
   
-  //Draw
-  ellipse(NPCPos.x,NPCPos.y,10,10);
-  stroke(100,200,50);
-  ellipse(PlayerPos.x,PlayerPos.y,10,10);
-
 }
