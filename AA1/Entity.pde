@@ -4,8 +4,8 @@ class Entity {
   float radius;
   float speed; //Alpha
   PVector Pos;
-  PVector targetPos;
-  
+  PVector targetPos = new PVector(width/2,height/2);
+ 
   void ChangeTarget(PVector newTarget) {
     targetPos = newTarget;
   }
@@ -37,6 +37,11 @@ class Entity {
     else if (Pos.y < 0) {
       Pos.y = 0;
     }
+  }
+  
+  float DistanceToEntity(Entity target) {
+    PVector distVector = new PVector(target.returnPos().x-Pos.x,target.returnPos().y-Pos.y);
+    return sqrt(pow(distVector.x,2)+pow(distVector.y,2));
   }
   
   PVector returnPos() {

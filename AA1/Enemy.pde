@@ -10,6 +10,9 @@ class Enemy extends Entity{
     if (type == 1) {
       speed = -(speed/2);
     }
+    else if (type == 2) {
+      speed /= 2;
+    }
     
     int temp = int(random(1,4));
     switch (temp) {
@@ -25,21 +28,25 @@ class Enemy extends Entity{
     }
   }
 
-  void CheckCollision(Entity target) {
-    PVector colVector = new PVector(target.returnPos().x-Pos.x,target.returnPos().y-Pos.y);
-    float magnitude = sqrt(pow(colVector.x,2)+pow(colVector.y,2));
-    
-    if (magnitude < target.radius+radius) {
-      stroke(255, 20, 100);
-      fill(255, 20, 100);
-    } else {
-      stroke(150, 50, 50);
-      fill(150, 50, 50);
-    }
-    
+  boolean CheckCollision(Entity target) {
+    float magnitude = DistanceToEntity(target);
+    return (magnitude < target.radius+radius);
   }
 
   void Draw() {
+    if (type == 0) {
+      stroke(200, 20, 50);
+      fill(200, 20, 50);
+    }
+    else if (type == 1) {
+      stroke(80, 200, 100);
+      fill(80, 200, 100);
+    }
+    else {
+      stroke(200, 150, 20);
+      fill(200, 150, 20);
+    }
+    
     strokeWeight(5);
     ellipse(Pos.x, Pos.y, 10, 10);
   }
