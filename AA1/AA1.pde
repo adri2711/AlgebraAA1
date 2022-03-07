@@ -24,12 +24,21 @@ void draw() {
   background(1);
   
   //Handle player
-  player.Move(new PVector(mouseX,mouseY));
+  
+  player.ChangeTarget(new PVector(mouseX,mouseY));
+  player.Move();
   player.Draw();
   
   //Handle enemies
   for (int i = 0; i < enemyNum; i++) { 
-    enemy[i].Move(player.returnPos());
+    if (enemy[i].returnType() == 2) {      //Wander
+      //enemy[i].ChangeTarget(new PVector(enemy[i].returnTarget().x + random(-width/10,width/10) , enemy[i].returnTarget().y + random(-height/10,height/10)));
+      enemy[i].Move();
+    }
+    else {                                 //Agressive/Passive
+      enemy[i].ChangeTarget(player.returnPos());
+      enemy[i].Move();
+    }
     enemy[i].CheckCollision(player);
     enemy[i].Draw();
   }

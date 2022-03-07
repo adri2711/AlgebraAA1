@@ -4,8 +4,13 @@ class Entity {
   float radius;
   float speed; //Alpha
   PVector Pos;
+  PVector targetPos;
   
-  void Move(PVector targetPos) {
+  void ChangeTarget(PVector newTarget) {
+    targetPos = newTarget;
+  }
+  
+  void Move() {
     //Initialize vectors
     PVector posVector = new PVector(targetPos.x - Pos.x, targetPos.y - Pos.y); //Vector between current position and target position 
     PVector nVector = new PVector(0, 0); //Normalized vector
@@ -36,5 +41,13 @@ class Entity {
   
   PVector returnPos() {
     return Pos;
+  }
+  
+  PVector returnTarget() {
+    return targetPos;
+  }
+  
+  float returnSpeed() {
+    return speed;
   }
 }

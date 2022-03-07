@@ -20,12 +20,4 @@ class Player extends Entity {
     fill((100-health)+120,health+120,50);    
     line(Pos.x-20,Pos.y+20,Pos.x-20+health/2.5,Pos.y+20);
   }
-  
-  float returnSpeed() {
-    return speed;
-  }
-  
-  PVector returnPos() {
-    return Pos;
-  }
 }

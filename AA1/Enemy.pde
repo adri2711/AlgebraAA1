@@ -48,4 +48,7 @@ class Enemy extends Entity{
     return speed;
   }
   
+  int returnType() {
+    return type;
+  }
 }
