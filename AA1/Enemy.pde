@@ -14,17 +14,22 @@ class Enemy extends Entity{
       speed /= 2;
     }
     
-    int temp = int(random(1,4));
-    switch (temp) {
-      case 1:
-        Pos = new PVector(radius*2,height/2);
-        break;
-      case 2:
-        Pos = new PVector(width-radius*2,height/2);
-        break;
-      case 3:
-        Pos = new PVector(width/2,height-radius*2);
-        break;
+    if (type == 1) {
+      Pos = new PVector(width/2,height/2);
+    }
+    else {
+      int temp = int(random(1,4));
+      switch (temp) {
+        case 1:
+          Pos = new PVector(radius*2,height/2);
+          break;
+        case 2:
+          Pos = new PVector(width-radius*2,height/2);
+          break;
+        case 3:
+          Pos = new PVector(width/2,height-radius*2);
+          break;
+      }
     }
   }
 
@@ -49,6 +54,10 @@ class Enemy extends Entity{
     
     strokeWeight(5);
     ellipse(Pos.x, Pos.y, 10, 10);
+  }
+  
+  void SetSpeed(float speed) {
+    this.speed = speed;
   }
   
   float returnSpeed() {

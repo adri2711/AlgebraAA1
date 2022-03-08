@@ -6,7 +6,7 @@ Player player;
 PImage heart;
 
 void setup() {
-  size(500, 720);
+  size(1080, 720);
   background(1);
   strokeWeight(10);
   
@@ -39,13 +39,28 @@ void draw() {
       if (random(0,100) < 1) {
         enemy[i].ChangeTarget(new PVector(random(0,width),random(0,height)));
       }
-      enemy[i].Move();
     }
-    //Agressive/Passive
+    //Passive
+    else if (enemy[i].returnType() == 1) {
+      if (enemy[i].DistanceToEntity(player) < width/3) {
+        enemy[i].SetSpeed(-abs(enemy[i].returnSpeed()));
+        enemy[i].ChangeTarget(player.returnPos());
+      }
+      else {
+        enemy[i].SetSpeed(abs(enemy[i].returnSpeed()));
+        if (random(0,100) < 1) {
+          enemy[i].ChangeTarget(new PVector(random(0,width),random(0,height)));
+        }
+      }
+    }
+    //Agressive
     else {
-      enemy[i].ChangeTarget(player.returnPos());
-      enemy[i].Move();
+      if (random(0,100) < 1) {
+        enemy[i].ChangeTarget(player.returnPos());
+      }
     }
+    
+    enemy[i].Move();
     
     //Collision with player
     if (enemy[i].CheckCollision(player)) {
