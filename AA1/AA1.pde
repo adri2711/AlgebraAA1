@@ -97,6 +97,7 @@ void draw() {
   
   //Handle obstacles
   for (int i = 0; i < obstacleNum; i++) {
+    obstacle[i].DrawShape();
   }
 
   //Handle interface
