@@ -33,7 +33,8 @@ void draw() {
   player.Draw();
   
   //Handle enemies
-  for (int i = 0; i < enemyNum; i++) { 
+  for (int i = 0; i < enemyNum; i++) {
+    if (enemy[i].isAlive()) {
     //Wander
     if (enemy[i].returnType() == 2) {
       if (random(0,100) < 1) {
@@ -66,14 +67,16 @@ void draw() {
     if (enemy[i].CheckCollision(player)) {
       if (enemy[i].returnType() == 1) {
         player.AddScore();
+        enemy[i].Kill();
       }
       else if (player.returnDamageCooldown() == 0) {
         player.Damage();
       }
     }
     
-    //Draw
+    //Draw    
     enemy[i].Draw();
+  }
   }
     
   //Handle obstacles

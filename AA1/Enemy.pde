@@ -1,6 +1,7 @@
 class Enemy extends Entity{
   int type; // 0: attack 1: run 2: wander 
   final float collisionMargin = 19; //Epsilon
+  boolean alive = true;
 
   Enemy(int type) {
     this.type = type;
@@ -56,8 +57,16 @@ class Enemy extends Entity{
     ellipse(Pos.x, Pos.y, 10, 10);
   }
   
+  void Kill() {
+    alive = false;
+  }
+  
   void SetSpeed(float speed) {
     this.speed = speed;
+  }
+  
+  boolean isAlive() {
+    return alive;
   }
   
   float returnSpeed() {
