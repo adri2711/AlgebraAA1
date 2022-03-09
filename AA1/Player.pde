@@ -39,7 +39,7 @@ class Player extends Entity {
     strokeWeight(5);
     stroke(50,100,200);
     fill(50,100,200);
-    ellipse(Pos.x, Pos.y, 15, 15);
+    ellipse(Pos.x, Pos.y, radius, radius);
     
     //draw hp bar
     stroke((100-health)+120,health+120,50);

@@ -53,7 +53,7 @@ class Enemy extends Entity{
     }
     
     strokeWeight(5);
-    ellipse(Pos.x, Pos.y, 10, 10);
+    ellipse(Pos.x, Pos.y, radius, radius);
   }
   
   void Kill() {

@@ -1,4 +1,4 @@
-final int enemyNum = 15;
+final int enemyNum = 0;
 final int obstacleNum = 12;
 Enemy[] enemy = new Enemy[enemyNum];
 Obstacle[] obstacle = new Obstacle[obstacleNum];
@@ -30,6 +30,20 @@ void draw() {
   //Handle player
   player.ChangeTarget(new PVector(mouseX, mouseY));
   player.Move();
+  
+  if (player.returnPos().x > width - player.returnRadius()) {
+    player.Collide('r');
+  }
+  if (player.returnPos().x < player.returnRadius()) {
+    player.Collide('l');
+  }
+  if (player.returnPos().y > height - player.returnRadius()) {
+    player.Collide('d');
+  }
+  if (player.returnPos().y < player.returnRadius()) {
+    player.Collide('u');
+  }
+  
   player.UpdateDamageCooldown();
   player.Draw();
 

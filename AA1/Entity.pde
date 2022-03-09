@@ -5,6 +5,7 @@ class Entity {
   float speed; //Alpha
   boolean alive = true;
   PVector Pos;
+  PVector posPrev = new PVector(width/2,height/2);
   PVector targetPos = new PVector(width/2,height/2);
  
   void ChangeTarget(PVector newTarget) {
@@ -22,27 +23,34 @@ class Entity {
     nVector.y = posVector.y / magnitude; 
 
     //Calculate next position
+    posPrev = Pos.copy();
     Pos.x += speed * nVector.x;
     Pos.y += speed * nVector.y;
-    
-    //Collision with walls
-    if (Pos.x > width-radius) {
-      Pos.x = width-radius;
-    }
-    else if (Pos.x < radius) {
-      Pos.x = radius; 
-    }
-    if (Pos.y > height-radius) {
-      Pos.y = height-radius;
-    }
-    else if (Pos.y < radius) {
-      Pos.y = radius;
+  }
+  
+  void Collide(char side) {
+    switch (side) {
+      case 'u':
+      case 'd':
+      Pos.y = posPrev.y;
+      break;
+      case 'l':
+      case 'r':
+      Pos.x = posPrev.x;
+      break;
+      case 's':
+      Pos = posPrev;
+      break;
     }
   }
   
   float DistanceToEntity(Entity target) {
     PVector distVector = new PVector(target.returnPos().x-Pos.x,target.returnPos().y-Pos.y);
     return sqrt(pow(distVector.x,2)+pow(distVector.y,2));
+  }
+  
+  float returnRadius() {
+    return radius;
   }
   
   PVector returnPos() {
