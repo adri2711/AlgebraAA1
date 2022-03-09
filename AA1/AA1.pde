@@ -9,15 +9,15 @@ void setup() {
   size(1080, 720);
   background(1);
   strokeWeight(10);
-  
+
   heart = loadImage("heart.png");
-  
-  player = new Player(5,5);
-  
+
+  player = new Player(5, 5);
+
   for (int i = 0; i < enemyNum; i++) {
     enemy[i] = new Enemy(i % 3);
   }
-    
+
   for (int i = 0; i < obstacleNum; i++) {
     obstacle[i] = new Obstacle(i % 3);
   }
@@ -25,65 +25,62 @@ void setup() {
 
 void draw() {
   background(1);
-  
+
   //Handle player
-  player.ChangeTarget(new PVector(mouseX,mouseY));
+  player.ChangeTarget(new PVector(mouseX, mouseY));
   player.Move();
   player.UpdateDamageCooldown();
   player.Draw();
-  
+
   //Handle enemies
   for (int i = 0; i < enemyNum; i++) {
     if (enemy[i].isAlive()) {
-    //Wander
-    if (enemy[i].returnType() == 2) {
-      if (random(0,100) < 1) {
-        enemy[i].ChangeTarget(new PVector(random(0,width),random(0,height)));
-      }
-    }
-    //Passive
-    else if (enemy[i].returnType() == 1) {
-      if (enemy[i].DistanceToEntity(player) < width/3) {
-        enemy[i].SetSpeed(-abs(enemy[i].returnSpeed()));
-        enemy[i].ChangeTarget(player.returnPos());
-      }
-      else {
-        enemy[i].SetSpeed(abs(enemy[i].returnSpeed()));
-        if (random(0,100) < 1) {
-          enemy[i].ChangeTarget(new PVector(random(0,width),random(0,height)));
+      //Wander
+      if (enemy[i].returnType() == 2) {
+        if (random(0, 100) < 1) {
+          enemy[i].ChangeTarget(new PVector(random(0, width), random(0, height)));
         }
       }
-    }
-    //Agressive
-    else {
-      if (random(0,100) < 1) {
-        enemy[i].ChangeTarget(player.returnPos());
+      //Passive
+      else if (enemy[i].returnType() == 1) {
+        if (enemy[i].DistanceToEntity(player) < width/3) {
+          enemy[i].SetSpeed(-abs(enemy[i].returnSpeed()));
+          enemy[i].ChangeTarget(player.returnPos());
+        } else {
+          enemy[i].SetSpeed(abs(enemy[i].returnSpeed()));
+          if (random(0, 100) < 1) {
+            enemy[i].ChangeTarget(new PVector(random(0, width), random(0, height)));
+          }
+        }
       }
-    }
-    
-    enemy[i].Move();
-    
-    //Collision with player
-    if (enemy[i].CheckCollision(player)) {
-      if (enemy[i].returnType() == 1) {
-        player.AddScore();
-        enemy[i].Kill();
+      //Agressive
+      else {
+        if (random(0, 100) < 1) {
+          enemy[i].ChangeTarget(player.returnPos());
+        }
       }
-      else if (player.returnDamageCooldown() == 0) {
-        player.Damage();
-      }
-    }
-    
-    //Draw    
-    enemy[i].Draw();
-  }
-  }
-    
-  //Handle obstacles
-  for (int i = 0; i < obstacleNum; i++) { 
 
+      enemy[i].Move();
+
+      //Collision with player
+      if (enemy[i].CheckCollision(player)) {
+        if (enemy[i].returnType() == 1) {
+          player.AddScore();
+          enemy[i].Kill();
+        } else if (player.returnDamageCooldown() == 0) {
+          player.Damage();
+        }
+      }
+
+      //Draw    
+      enemy[i].Draw();
+    }
   }
-  
+
+  //Handle obstacles
+  for (int i = 0; i < obstacleNum; i++) {
+  }
+
   //Handle interface
-  DrawLives(player.returnLives(),0);
+  DrawLives(player.returnLives(), 0);
 }
