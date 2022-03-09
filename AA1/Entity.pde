@@ -3,6 +3,7 @@ class Entity {
   final int minSpeed = 3;
   float radius;
   float speed; //Alpha
+  boolean alive = true;
   PVector Pos;
   PVector targetPos = new PVector(width/2,height/2);
  
@@ -28,14 +29,14 @@ class Entity {
     if (Pos.x > width-radius) {
       Pos.x = width-radius;
     }
-    else if (Pos.x < 0) {
-      Pos.x = 0; 
+    else if (Pos.x < radius) {
+      Pos.x = radius; 
     }
     if (Pos.y > height-radius) {
       Pos.y = height-radius;
     }
-    else if (Pos.y < 0) {
-      Pos.y = 0;
+    else if (Pos.y < radius) {
+      Pos.y = radius;
     }
   }
   

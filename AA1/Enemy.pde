@@ -1,7 +1,6 @@
 class Enemy extends Entity{
   int type; // 0: attack 1: run 2: wander 
   final float collisionMargin = 19; //Epsilon
-  boolean alive = true;
 
   Enemy(int type) {
     this.type = type;
@@ -9,7 +8,7 @@ class Enemy extends Entity{
     
     speed = random(minSpeed,maxSpeed);
     if (type == 1) {
-      speed = -(speed/2);
+      speed = -(speed*0.7);
     }
     else if (type == 2) {
       speed /= 2;

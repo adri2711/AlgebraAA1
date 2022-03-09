@@ -1,7 +1,8 @@
 final int enemyNum = 15;
-final int obstacleNum = 5;
+final int obstacleNum = 12;
 Enemy[] enemy = new Enemy[enemyNum];
 Obstacle[] obstacle = new Obstacle[obstacleNum];
+Object[] object;
 Player player;
 PImage heart;
 
@@ -77,6 +78,9 @@ void draw() {
     }
   }
 
+  //Handle items
+  
+  
   //Handle obstacles
   for (int i = 0; i < obstacleNum; i++) {
   }
