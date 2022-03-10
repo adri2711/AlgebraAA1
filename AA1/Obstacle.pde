@@ -72,7 +72,7 @@ class Obstacle {
     switch(sides){
     
     case 0:
-      if(sqrt((position[0].x - pj.returnPos().x) + (position[0].y - pj.returnPos().y)) <= strokeWeight + pj.returnRadius()){
+      if(sqrt(pow(position[0].x - pj.returnPos().x,2) + pow(position[0].y - pj.returnPos().y,2)) <= strokeWeight + pj.returnRadius()){
         return 's';
       }
       break;

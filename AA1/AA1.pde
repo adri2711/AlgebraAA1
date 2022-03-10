@@ -20,7 +20,7 @@ void setup() {
   }
 
   for (int i = 0; i < obstacleNum; i++) {
-    obstacle[i] = new Obstacle(1);
+    obstacle[i] = new Obstacle(0);
   }
 }
 
