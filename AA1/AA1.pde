@@ -1,4 +1,4 @@
-final int enemyNum = 0;
+final int enemyNum = 20;
 final int obstacleNum = 12;
 Enemy[] enemy = new Enemy[enemyNum];
 Obstacle[] obstacle = new Obstacle[obstacleNum];
@@ -26,6 +26,11 @@ void setup() {
 
 void draw() {
   background(1);
+  
+  //Handle obstacles
+  for (int i = 0; i < obstacleNum; i++) {
+    obstacle[i].DrawShape();
+  }
 
   //Handle player
   player.ChangeTarget(new PVector(mouseX, mouseY));
@@ -108,13 +113,6 @@ void draw() {
       if (enemy[i].returnPos().y < enemy[i].returnRadius()) {
         enemy[i].Collide('v');
       }
-      
-      //obstacle collision
-      /*for (int j = 0; j < obstacleNum; j++) {
-        if (obstacle[j].CheckCollision(enemy[i]) != 'n') {
-          enemy[i].Collide(obstacle[j].CheckCollision(enemy[i]));
-        }
-      }*/
   
 
       //Draw    
@@ -123,12 +121,6 @@ void draw() {
   }
 
   //Handle items
-  
-  
-  //Handle obstacles
-  for (int i = 0; i < obstacleNum; i++) {
-    obstacle[i].DrawShape();
-  }
 
   //Handle interface
   DrawLives(player.returnLives(), 0);
