@@ -1,5 +1,5 @@
-final int enemyNum = 10;
-final int obstacleNum = 1;
+final int enemyNum = 0;
+final int obstacleNum = 12;
 Enemy[] enemy = new Enemy[enemyNum];
 Obstacle[] obstacle = new Obstacle[obstacleNum];
 Object[] object;
@@ -20,7 +20,7 @@ void setup() {
   }
 
   for (int i = 0; i < obstacleNum; i++) {
-    obstacle[i] = new Obstacle(0);
+    obstacle[i] = new Obstacle(i % 3);
   }
 }
 
@@ -132,5 +132,7 @@ void draw() {
 
   //Handle interface
   DrawLives(player.returnLives(), 0);
-  DrawScore(player.returnScore(), 0, 0);
+  if (player.returnScore() > 0) {
+    DrawScore(player.returnScore(), 0, 0);
+  }
 }
