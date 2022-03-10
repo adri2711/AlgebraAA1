@@ -4,7 +4,7 @@ class Enemy extends Entity{
 
   Enemy(int type) {
     this.type = type;
-    radius = 10.0;
+    radius = 7;
     
     speed = random(minSpeed,maxSpeed);
     if (type == 1) {
@@ -53,7 +53,7 @@ class Enemy extends Entity{
     }
     
     strokeWeight(5);
-    ellipse(Pos.x, Pos.y, radius, radius);
+    ellipse(Pos.x, Pos.y, radius*2, radius*2);
   }
   
   void Kill() {

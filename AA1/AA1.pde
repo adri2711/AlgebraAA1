@@ -33,16 +33,16 @@ void draw() {
   
   //wall collision
   if (player.returnPos().x > width - player.returnRadius()) {
-    player.Collide('r');
+    player.Collide('h');
   }
   if (player.returnPos().x < player.returnRadius()) {
-    player.Collide('l');
+    player.Collide('h');
   }
   if (player.returnPos().y > height - player.returnRadius()) {
-    player.Collide('d');
+    player.Collide('v');
   }
   if (player.returnPos().y < player.returnRadius()) {
-    player.Collide('u');
+    player.Collide('v');
   }
   
   //obstacle collision
@@ -78,7 +78,7 @@ void draw() {
       }
       //Agressive
       else {
-        if (random(0, 100) < 1) {
+        if (random(0,10) < 1) {
           enemy[i].ChangeTarget(player.returnPos());
         }
       }
@@ -97,16 +97,16 @@ void draw() {
       
       //wall collision
       if (enemy[i].returnPos().x > width - enemy[i].returnRadius()) {
-        enemy[i].Collide('r');
+        enemy[i].Collide('h');
       }
       if (enemy[i].returnPos().x < enemy[i].returnRadius()) {
-        enemy[i].Collide('l');
+        enemy[i].Collide('h');
       }
       if (enemy[i].returnPos().y > height - enemy[i].returnRadius()) {
-        enemy[i].Collide('d');
+        enemy[i].Collide('v');
       }
       if (enemy[i].returnPos().y < enemy[i].returnRadius()) {
-        enemy[i].Collide('u');
+        enemy[i].Collide('v');
       }
       
       //obstacle collision
@@ -132,4 +132,5 @@ void draw() {
 
   //Handle interface
   DrawLives(player.returnLives(), 0);
+  DrawScore(player.returnScore(), 0, 0);
 }

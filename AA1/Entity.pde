@@ -9,7 +9,7 @@ class Entity {
   PVector targetPos = new PVector(width/2,height/2);
  
   void ChangeTarget(PVector newTarget) {
-    targetPos = newTarget;
+    targetPos = newTarget.copy();
   }
   
   void Move() {
@@ -30,12 +30,10 @@ class Entity {
   
   void Collide(char side) {
     switch (side) {
-      case 'u':
-      case 'd':
+      case 'v':
       Pos.y = posPrev.y;
       break;
-      case 'l':
-      case 'r':
+      case 'h':
       Pos.x = posPrev.x;
       break;
       case 's':
