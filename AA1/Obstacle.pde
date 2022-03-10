@@ -59,7 +59,7 @@ class Obstacle {
     case 2:
       translate(translatePosition.x, translatePosition.y);   
       stroke(colors[0], colors[1], colors[2]);
-      noFill();
+      fill(colors[0], colors[1], colors[2]);
       rect(0, 0, randomSize[0], randomSize[1]);
       translate(-translatePosition.x, -translatePosition.y);
       break;
