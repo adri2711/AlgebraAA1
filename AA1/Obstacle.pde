@@ -94,8 +94,30 @@ class Obstacle {
           return  'v';
         }
       }
+      
       break;    
     }  
    return 'n';  
-  }  
+  }
+  
+  char CheckIfSpawnInside(Entity pj){
+      
+    switch (sides){
+      
+      case 0:
+        if(sqrt(pow(position[0].x - pj.returnPos().x,2) + pow(position[0].y - pj.returnPos().y,2)) <= diameter / 2 + pj.returnRadius()){
+        return 's';
+      }
+      break;
+      
+      case 1:
+      case 2:
+      if(pj.returnPos().x + pj.returnRadius() >= translatePosition.x && pj.returnPos().x - pj.returnRadius() <= translatePosition .x + randomSize[0] && pj.returnPos().y + pj.returnRadius() >=  translatePosition.y && pj.returnPos().y - pj.returnRadius() <= translatePosition.y + randomSize[1]){
+        text('c', 40 ,120);
+        return 'c';
+      } 
+      break;    
+    }      
+    return 'n';    
+  }
 }
