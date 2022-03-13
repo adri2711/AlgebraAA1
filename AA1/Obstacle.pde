@@ -13,7 +13,11 @@ class Obstacle {
   }
 
   void SelectShape() {
-
+    
+    for(int i = 0; i < 3; i++){      
+        colors[i] = (int)random(256);
+    } 
+    
     switch(sides) {
     case 0:
       diameter = random(60, 90);
@@ -29,9 +33,6 @@ class Obstacle {
       translatePosition = new PVector();
       translatePosition.x = (int)random(width / 8, (width - width / 8) - randomValue);
       translatePosition.y = (int)random(height / 8, (height - height / 8) - randomValue);  
-      for(int i = 0; i < 3; i++){      
-        colors[i] = (int)random(256);
-      }
       break;
 
     case 2:         
@@ -41,17 +42,15 @@ class Obstacle {
       translatePosition = new PVector();
       translatePosition.x = (int)random(width / 8, (width - width / 8) - randomSize[0]);
       translatePosition.y = (int)random(height / 8, (height - height / 8) - randomSize[1]);  
-      for(int i = 0; i < 3; i++){      
-        colors[i] = (int)random(256);
-      }
       break;
     }
   }  
 
   void DrawShape() {
-
     switch(sides) {
     case 0:
+      stroke(colors[0], colors[1], colors[2]);
+      fill(colors[0], colors[1], colors[2]);      
       ellipse(position[0].x, position[0].y, diameter, diameter);
       break;
 

@@ -11,7 +11,8 @@ void DrawLives(int lives, int offset) {
 void DrawScore(int score,int x_offset,int y_offset) {
   int GUIScale = ceil(width/270.0);
   int space = width/16;
-  fill(50,200,50);
+  strokeWeight(2);
+  fill(100,220,100);
   stroke(50,200,50);
   ellipse(width-(space+x_offset), height-(space+y_offset), GUIScale*4, GUIScale*4);
   if (score > 1) {

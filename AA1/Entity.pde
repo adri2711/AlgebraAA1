@@ -28,6 +28,10 @@ class Entity {
     Pos.y += speed * nVector.y;
   }
   
+  void Kill() {
+    alive = false;
+  }
+  
   void Collide(char side) {
     switch (side) {
       case 'v':
@@ -45,6 +49,15 @@ class Entity {
   float DistanceToEntity(Entity target) {
     PVector distVector = new PVector(target.returnPos().x-Pos.x,target.returnPos().y-Pos.y);
     return sqrt(pow(distVector.x,2)+pow(distVector.y,2));
+  }
+  
+  boolean CheckCollision(Entity target) {
+    float magnitude = DistanceToEntity(target);
+    return (magnitude < target.radius+radius);
+  }
+  
+  boolean isAlive() {
+    return alive;
   }
   
   float returnRadius() {

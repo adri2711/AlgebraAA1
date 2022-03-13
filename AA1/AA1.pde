@@ -1,130 +1,44 @@
 final int enemyNum = 20;
 final int obstacleNum = 12;
+final int objectNum = 4;
 Enemy[] enemy = new Enemy[enemyNum];
 Obstacle[] obstacle = new Obstacle[obstacleNum];
-Object[] object;
+Object[] object = new Object[objectNum];
 Player player;
 PImage heart;
+int gameStage = 1;
 
 void setup() {
   size(1080, 720);
-  background(1);
-  strokeWeight(10);
-
   heart = loadImage("heart.png");
-
   player = new Player(5, 5);
-
-  for (int i = 0; i < enemyNum; i++) {
-    enemy[i] = new Enemy(i % 3);
-  }
-
-  for (int i = 0; i < obstacleNum; i++) {
-    obstacle[i] = new Obstacle(i % 3);
-  }
+  SetupStage1();
 }
 
 void draw() {
-  background(1);
-  
-  //Handle obstacles
-  for (int i = 0; i < obstacleNum; i++) {
-    obstacle[i].DrawShape();
+  switch (gameStage) {
+    case 0:
+    
+    break;
+    
+    case 1:
+      background(10,30,40);
+      ObstacleLoop();
+      PlayerLoop();
+      EnemyLoop();
+      ObjectLoop();
+      InterfaceLoop();
+    break;
+    
+    case 2:
+      background(40,5,20);
+      ObstacleLoop();
+      PlayerLoop();
+      BossLoop();
+      EnemyLoop();
+      ObjectLoop();
+      InterfaceLoop();    
+    break;
   }
 
-  //Handle player
-  player.ChangeTarget(new PVector(mouseX, mouseY));
-  player.Move();
-  
-  //wall collision
-  if (player.returnPos().x > width - player.returnRadius()) {
-    player.Collide('h');
-  }
-  if (player.returnPos().x < player.returnRadius()) {
-    player.Collide('h');
-  }
-  if (player.returnPos().y > height - player.returnRadius()) {
-    player.Collide('v');
-  }
-  if (player.returnPos().y < player.returnRadius()) {
-    player.Collide('v');
-  }
-  
-  //obstacle collision
-  for (int j = 0; j < obstacleNum; j++) {
-    if (obstacle[j].CheckCollision(player) != 'n') {
-      player.Collide(obstacle[j].CheckCollision(player));
-    }
-  }
-  
-  player.UpdateDamageCooldown();
-  player.Draw();
-
-  //Handle enemies
-  for (int i = 0; i < enemyNum; i++) {
-    if (enemy[i].isAlive()) {
-      //Wander
-      if (enemy[i].returnType() == 2) {
-        if (random(0, 100) < 1) {
-          enemy[i].ChangeTarget(new PVector(random(0, width), random(0, height)));
-        }
-      }
-      //Passive
-      else if (enemy[i].returnType() == 1) {
-        if (enemy[i].DistanceToEntity(player) < width/3) {
-          enemy[i].SetSpeed(-abs(enemy[i].returnSpeed()));
-          enemy[i].ChangeTarget(player.returnPos());
-        } else {
-          enemy[i].SetSpeed(abs(enemy[i].returnSpeed()));
-          if (random(0, 100) < 1) {
-            enemy[i].ChangeTarget(new PVector(random(0, width), random(0, height)));
-          }
-        }
-      }
-      //Agressive
-      else {
-        if (random(0,10) < 1) {
-          enemy[i].ChangeTarget(player.returnPos());
-        }
-      }
-
-      enemy[i].Move();
-
-      //player collision
-      if (enemy[i].CheckCollision(player)) {
-        if (enemy[i].returnType() == 1) {
-          player.AddScore();
-          enemy[i].Kill();
-        } else if (player.returnDamageCooldown() == 0) {
-          player.Damage();
-        }
-      }
-      
-      //wall collision
-      if (enemy[i].returnPos().x > width - enemy[i].returnRadius()) {
-        enemy[i].Collide('h');
-      }
-      if (enemy[i].returnPos().x < enemy[i].returnRadius()) {
-        enemy[i].Collide('h');
-      }
-      if (enemy[i].returnPos().y > height - enemy[i].returnRadius()) {
-        enemy[i].Collide('v');
-      }
-      if (enemy[i].returnPos().y < enemy[i].returnRadius()) {
-        enemy[i].Collide('v');
-      }
-  
-
-      //Draw    
-      enemy[i].Draw();
-    }
-  }
-
-  //Handle items
-
-  //Handle interface
-  DrawLives(player.returnLives(), 0);
-  if (player.returnScore() > 0) {
-    DrawScore(player.returnScore(), 0, 0);
-  }
 }

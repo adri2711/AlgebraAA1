@@ -33,11 +33,6 @@ class Enemy extends Entity{
     }
   }
 
-  boolean CheckCollision(Entity target) {
-    float magnitude = DistanceToEntity(target);
-    return (magnitude < target.radius+radius);
-  }
-
   void Draw() {
     if (type == 0) {
       stroke(200, 20, 50);
@@ -56,16 +51,8 @@ class Enemy extends Entity{
     ellipse(Pos.x, Pos.y, radius*2, radius*2);
   }
   
-  void Kill() {
-    alive = false;
-  }
-  
   void SetSpeed(float speed) {
     this.speed = speed;
-  }
-  
-  boolean isAlive() {
-    return alive;
   }
   
   float returnSpeed() {
