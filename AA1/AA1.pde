@@ -1,24 +1,30 @@
-final int enemyNum = 20;
 final int obstacleNum = 12;
 final int objectNum = 4;
-Enemy[] enemy = new Enemy[enemyNum];
+Enemy[] enemy;
 Obstacle[] obstacle = new Obstacle[obstacleNum];
 Object[] object = new Object[objectNum];
 Player player;
 PImage heart;
-int gameStage = 1;
+int gameStage = 0;
+int numOfEnemies[];
+int enemyNum;
+int playButtonDiameter;
+int countOfInputs;
 
 void setup() {
   size(1080, 720);
   heart = loadImage("heart.png");
   player = new Player(5, 5);
-  SetupStage1();
+  numOfEnemies = new int [2];
+  playButtonDiameter = 170;
 }
 
 void draw() {
+    
   switch (gameStage) {
     case 0:
-    
+      background(0,0,0);
+      Start(numOfEnemies, playButtonDiameter);
     break;
     
     case 1:
@@ -40,5 +46,4 @@ void draw() {
       InterfaceLoop();    
     break;
   }
-
 }
