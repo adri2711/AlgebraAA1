@@ -46,6 +46,10 @@ class Entity {
     }
   }
   
+  void SetPos(PVector newPos) {
+    Pos = newPos.copy();
+  }
+  
   float DistanceToEntity(Entity target) {
     PVector distVector = new PVector(target.returnPos().x-Pos.x,target.returnPos().y-Pos.y);
     return sqrt(pow(distVector.x,2)+pow(distVector.y,2));

@@ -6,6 +6,7 @@ Object[] object = new Object[objectNum];
 Player player;
 PImage heart;
 int gameStage = 0;
+boolean levelBeat = false;
 int numOfEnemies[];
 int enemyNum;
 int playButtonDiameter;
@@ -44,6 +45,10 @@ void draw() {
       EnemyLoop();
       ObjectLoop();
       InterfaceLoop();
+    break;
+    
+    case 3:
+      
     break;
   }
 }

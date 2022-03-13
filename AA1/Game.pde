@@ -13,6 +13,12 @@ void SetupStage1() {
 
 
 void SetupStage2() {
+  player.SetPos(new PVector(width/2,player.returnRadius()*2));
+  
+  for (int i = 0; i < enemyNum; i++) {
+    enemy[i].Kill();
+  }  
+  
   for (int i = 0; i < objectNum; i++) {
     object[i] = SpawnObject(new PVector(random(20,width),random(20,height)));
   }
@@ -159,19 +165,26 @@ void EnemyLoop() {
 
 void ObjectLoop() {
   int i = 0;
+  int objectsRemaining = 0;
+  boolean score = false;
   do {
     if (object[i].isAlive()) {
       object[i].Draw();
+      objectsRemaining++;
       
       if (object[i].CheckCollision(player)) {
         player.AddScore();
-        levelBeat = true;
         object[i].Kill();
+        score = true;
       }
     }    
     
     i++;
   } while(i < objectNum && gameStage == 2);
+  
+  if (score && objectsRemaining <= 1) {
+    levelBeat = true;
+  }
   
   if (levelBeat) {
     fill(100,220,100);
