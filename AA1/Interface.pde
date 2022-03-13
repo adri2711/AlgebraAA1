@@ -82,3 +82,19 @@ void DrawScore(int score, int x_offset, int y_offset) {
     }
   }
 }
+
+void FinalScreen(/*Player pj, win condition*/){
+
+  fill(255);
+  textSize(60);
+  //if(Win){
+    text("YOU WON!!!", width / 2 - 170 ,height / 2);
+  //}else{
+    //text("GAME OVER", width / 2 - 180 ,height / 2);
+  //}
+  
+  textSize(40);
+  text("score: " + 20 , width / 2 - 100 ,height / 2 + 100);
+
+
+}
