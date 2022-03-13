@@ -1,5 +1,4 @@
-void SetupStage1() {
-  
+void SetupStage1() { 
   for (int i = 0; i < enemyNum; i++) {
     enemy[i] = new Enemy(i % 3);
   }
@@ -14,7 +13,9 @@ void SetupStage1() {
 
 
 void SetupStage2() {
-  
+  for (int i = 0; i < objectNum; i++) {
+    object[i] = SpawnObject(new PVector(random(20,width),random(20,height)));
+  }
 }
 
 
@@ -76,7 +77,13 @@ void PlayerLoop() {
   }
   
   player.UpdateDamageCooldown();
-  player.Draw();  
+  player.Draw();
+  
+  if (levelBeat && player.returnPos().y > height-15 && (player.returnPos().x > width/2-width/8 && player.returnPos().x < width/2+width/8)) {
+    levelBeat = false;
+    gameStage++;
+    SetupStage2();
+  }
 }
 
 
@@ -158,12 +165,19 @@ void ObjectLoop() {
       
       if (object[i].CheckCollision(player)) {
         player.AddScore();
+        levelBeat = true;
         object[i].Kill();
       }
     }    
     
     i++;
   } while(i < objectNum && gameStage == 2);
+  
+  if (levelBeat) {
+    fill(100,220,100);
+    stroke(50,200,50);  
+    rect(width/2-width/8,height-15,width/4,15);
+  }
 }
 
 

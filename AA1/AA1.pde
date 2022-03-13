@@ -7,6 +7,7 @@ Object[] object = new Object[objectNum];
 Player player;
 PImage heart;
 int gameStage = 1;
+boolean levelBeat = false;
 
 void setup() {
   size(1080, 720);
@@ -37,7 +38,7 @@ void draw() {
       BossLoop();
       EnemyLoop();
       ObjectLoop();
-      InterfaceLoop();    
+      InterfaceLoop();
     break;
   }
 
