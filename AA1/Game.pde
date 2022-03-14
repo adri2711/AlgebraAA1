@@ -33,7 +33,8 @@ void SetupStage2() {
   for (int i = 0; i < objectNum; i++) {
     object[i] = SpawnObject(new PVector(random(20, width), random(20, height)));
   }
-
+  
+  boss = new Boss();
   bossAlive = true;
   startTime = millis();
 }
@@ -118,10 +119,9 @@ void BossLoop() {
   }
 
   if (boss.AttackTime()) {
-    float angle = random(15, 45);
-    float burstAmount = 360.0f/angle;
-    for (int i = 0; i < burstAmount; i++) {
-      angle += 360/burstAmount;
+    float angle = random(0, 45);
+    for (int i = 0; i < projectileNum; i++) {
+      angle += 30;
       projectile[i] = new Projectile(new PVector(width/2, height/2), angle, 10);
     }
   }
