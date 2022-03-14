@@ -43,7 +43,6 @@ void draw() {
     EnemyLoop();
     ObjectLoop();
     InterfaceLoop();
-    ProjectileLoop();
     break;
 
   case 2:
@@ -60,6 +59,7 @@ void draw() {
     ObstacleLoop();
     PlayerLoop();
     BossLoop();
+    ProjectileLoop();
     EnemyLoop();
     ObjectLoop();
     InterfaceLoop();
