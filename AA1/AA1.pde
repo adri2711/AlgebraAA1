@@ -1,13 +1,14 @@
 PImage heart;
 final int obstacleNum = 12;
 final int objectNum = 4;
+final int projectileNum = 8;
 final int timePerLevel = 99999;
 Enemy[] enemy;
 Obstacle[] obstacle = new Obstacle[obstacleNum];
 Object[] object = new Object[objectNum];
 Player player;
 Boss boss;
-Projectile[] projectile = new Projectile[5];
+Projectile[] projectile = new Projectile[projectileNum];
 int startTime;
 int gameTime;
 

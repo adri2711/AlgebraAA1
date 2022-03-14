@@ -9,10 +9,10 @@ void SetupStage1() {
   }
 
   /*float angle = -90;
-  for (int i = 0; i < projectile.length; i++) {
-    angle += 15;
-    projectile[i] = new Projectile(new PVector(width/2, height/2), angle, 10);
-  }*/
+   for (int i = 0; i < projectile.length; i++) {
+   angle += 15;
+   projectile[i] = new Projectile(new PVector(width/2, height/2), angle, 10);
+   }*/
 
   object[0] = SpawnObject(new PVector(random(20, width), random(20, height)));
 
@@ -113,6 +113,20 @@ void PlayerLoop() {
 
 
 void BossLoop() {
+  if (random(0, 40) < 1) {
+    boss.ChangeTarget(player.returnPos());
+  }
+
+  if (boss.AttackTime()) {
+    float angle = random(0, 45);
+    for (int i = 0; i < projectile.length; i++) {
+      angle += 45;
+      projectile[i] = new Projectile(new PVector(width/2, height/2), angle, 10);
+    }
+  }
+
+  boss.Move();
+  boss.Draw();
 }
 
 
@@ -180,9 +194,11 @@ void EnemyLoop() {
 
 void ProjectileLoop() {
   for (int i = 0; i < projectile.length; i++) {
-    projectile[i].UpdateProjectileTarget();
-    projectile[i].Move();
-    projectile[i].Draw();
+    if (projectile[i].isAlive()) {
+      projectile[i].UpdateProjectileTarget();
+      projectile[i].Move();
+      projectile[i].Draw();
+    }
   }
 }
 
@@ -205,7 +221,7 @@ void ObjectLoop() {
     i++;
   } while (i < objectNum && gameStage == 3);
 
-  if (score && objectsRemaining <= 1) {
+  if (score && !bossAlive && objectsRemaining <= 1) {
     levelBeat = true;
   }
 

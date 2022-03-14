@@ -1,4 +1,4 @@
-class Boss{
+class Boss extends Entity{
 
   
 
