@@ -1,11 +1,11 @@
 class Obstacle {
 
-  int sides;
-  float diameter;
-  PVector position[];
-  PVector translatePosition;
-  float randomSize[];
-  int colors[] = new int [3];
+  private int sides;
+  private float diameter;
+  private PVector position[];
+  private PVector translatePosition;
+  private float randomSize[];
+  private int colors[] = new int [3];
 
   Obstacle(int sides) {
     this.sides = sides;
