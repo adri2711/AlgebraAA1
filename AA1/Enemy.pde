@@ -1,5 +1,5 @@
 class Enemy extends Entity{
-  int type; // 0: attack 1: run 2: wander 
+  private int type; // 0: attack 1: run 2: wander 
   final float collisionMargin = 19; //Epsilon
 
   Enemy(int type) {

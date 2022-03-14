@@ -1,8 +1,8 @@
 PImage heart;
 final int obstacleNum = 12;
 final int objectNum = 4;
-final int projectileNum = 8;
-final int timePerLevel = 99999;
+final int projectileNum = 12;
+final int timePerLevel = 20;
 Enemy[] enemy;
 Obstacle[] obstacle = new Obstacle[obstacleNum];
 Object[] object = new Object[objectNum];
@@ -11,6 +11,7 @@ Boss boss;
 Projectile[] projectile = new Projectile[projectileNum];
 int startTime;
 int gameTime;
+int attackTime;
 
 int gameStage = 0;
 boolean bossAlive = false;
@@ -40,9 +41,9 @@ void draw() {
   case 1:
     background(10, 30, 40);
     ObstacleLoop();
-    PlayerLoop();
     EnemyLoop();
     ObjectLoop();
+    PlayerLoop();
     InterfaceLoop();
     break;
 
@@ -51,6 +52,7 @@ void draw() {
     screenTime++;
     if (screenTime > 200) {
       gameStage++;
+      SetupStage2();
       screenTime = 0;
     }
     break;
@@ -58,11 +60,11 @@ void draw() {
   case 3:
     background(40, 5, 20);
     ObstacleLoop();
-    PlayerLoop();
     BossLoop();
     ProjectileLoop();
     EnemyLoop();
     ObjectLoop();
+    PlayerLoop();
     InterfaceLoop();
     break;    
 

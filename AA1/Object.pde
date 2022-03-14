@@ -1,6 +1,6 @@
 class Object extends Entity {
-  int colors[] = new int [3];  
-  int colorTimer = 0;
+  private int colors[] = new int [3];  
+  private int colorTimer = 0;
   final int colorSpeed = 7;
   
   Object(PVector Pos) {
@@ -26,5 +26,4 @@ class Object extends Entity {
     fill(colors[0],colors[1],colors[2]);
     ellipse(Pos.x, Pos.y, radius*2, radius*2);
   }
-  
 }

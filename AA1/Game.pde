@@ -1,5 +1,7 @@
 void SetupStage1() { 
+  player = new Player(5, 5);
   player.SetPos(new PVector(width/2, player.returnRadius()*2));
+  
   for (int i = 0; i < enemyNum; i++) {
     enemy[i] = new Enemy(i % 3);
   }
@@ -7,12 +9,6 @@ void SetupStage1() {
   for (int i = 0; i < obstacleNum; i++) {
     obstacle[i] = new Obstacle(i % 3);
   }
-
-  /*float angle = -90;
-   for (int i = 0; i < projectile.length; i++) {
-   angle += 15;
-   projectile[i] = new Projectile(new PVector(width/2, height/2), angle, 10);
-   }*/
 
   object[0] = SpawnObject(new PVector(random(20, width), random(20, height)));
 
@@ -27,13 +23,18 @@ void SetupStage2() {
   player.SetPos(new PVector(width/2, player.returnRadius()*2));
 
   for (int i = 0; i < enemyNum; i++) {
-    enemy[i].Kill();
-  }  
+    enemy[i] = new Enemy(i % 3);
+  } 
 
   for (int i = 0; i < objectNum; i++) {
     object[i] = SpawnObject(new PVector(random(20, width), random(20, height)));
   }
-  
+
+  for (int i = 0; i < projectileNum; i++) {
+    projectile[i] = new Projectile(new PVector(0, 0), 0, 0, 0);
+    projectile[i].Kill();
+  }
+
   boss = new Boss();
   bossAlive = true;
   startTime = millis();
@@ -114,20 +115,27 @@ void PlayerLoop() {
 
 
 void BossLoop() {
-  if (random(0, 40) < 1) {
-    boss.ChangeTarget(player.returnPos());
-  }
-
-  if (boss.AttackTime()) {
-    float angle = random(0, 45);
-    for (int i = 0; i < projectileNum; i++) {
-      angle += 30;
-      projectile[i] = new Projectile(new PVector(width/2, height/2), angle, 10);
+  if (boss.isAlive()) {
+    if (random(0, 40) < 1) {
+      boss.ChangeTarget(player.returnPos());
     }
-  }
 
-  boss.Move();
-  boss.Draw();
+    if (boss.AttackTime()) {
+      float angle = random(0, 360);
+      for (int i = 0; i < projectileNum; i++) {
+        angle += 10;
+        projectile[i] = new Projectile(boss.returnPos(), angle, 10, random(5, 8));
+      }
+    }
+
+    //player collision
+    if (boss.CheckCollision(player) && player.returnDamageCooldown() == 0) {
+      player.Damage();
+    }  
+
+    boss.Move();
+    boss.Draw();
+  }
 }
 
 
@@ -193,8 +201,10 @@ void EnemyLoop() {
   }
 }
 
+
+
 void ProjectileLoop() {
-  for (int i = 0; i < projectile.length; i++) {
+  for (int i = 0; i < projectileNum; i++) {
     if (projectile[i].isAlive()) {
       projectile[i].UpdateProjectileTarget();
       projectile[i].Move();
@@ -211,6 +221,8 @@ void ProjectileLoop() {
   }
 }
 
+
+
 void ObjectLoop() {
   int i = 0;
   int objectsRemaining = 0;
@@ -224,11 +236,20 @@ void ObjectLoop() {
         player.AddScore();
         object[i].Kill();
         score = true;
+        if (gameStage == 3) {
+          attackTime = 12;
+          boss.Damage();
+        }
       }
     }    
 
     i++;
   } while (i < objectNum && gameStage == 3);
+
+  if (attackTime > 0) {
+    player.AttackEffect(boss.returnPos());
+    attackTime--;
+  }
 
   if (score && !bossAlive && objectsRemaining <= 1) {
     levelBeat = true;

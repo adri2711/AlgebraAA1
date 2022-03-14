@@ -1,7 +1,8 @@
 class Projectile extends Entity {
-  float angle;
+  private float angle;
   
-  Projectile(PVector Pos, float angle, float speed) {
+  Projectile(PVector Pos, float angle, float speed, float radius) {
+    this.radius = radius;
     this.speed = speed;
     this.angle = angle;
     this.Pos = Pos.copy();
