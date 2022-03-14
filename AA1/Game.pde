@@ -1,7 +1,12 @@
+boolean goUp = false;
+boolean goDown = false;
+boolean goRight = false;
+boolean goLeft = false;
+
 void SetupStage1() { 
   player = new Player(5, 5);
   player.SetPos(new PVector(width/2, player.returnRadius()*2));
-  
+
   for (int i = 0; i < enemyNum; i++) {
     enemy[i] = new Enemy(i % 3);
   }
@@ -72,8 +77,25 @@ void ObstacleLoop() {
 
 
 void PlayerLoop() {
-  //movement
-  player.ChangeTarget(new PVector(mouseX, mouseY));
+  PVector arrowDirection = new PVector(player.Pos.x, player.Pos.y);
+
+  if (!goUp && !goDown && !goRight && !goLeft) {
+    player.ChangeTarget(new PVector(mouseX, mouseY));
+  } else {
+    if (goUp) {
+      arrowDirection.y--;
+    }
+    else if (goDown) {
+      arrowDirection.y++;
+    }
+    if (goRight) {
+      arrowDirection.x++;
+    }
+    else if (goLeft) {
+      arrowDirection.x--;
+    }    
+    player.ChangeTarget(arrowDirection);
+  }  
   player.Move();
 
   //wall collision
