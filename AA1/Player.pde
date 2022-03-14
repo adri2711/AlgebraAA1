@@ -16,11 +16,10 @@ class Player extends Entity {
   }
   
   void Damage() {
-    damageCooldown = 100;
+    damageCooldown = 50;
     health -= maxHealth / 4;
     if (health < 0) {
-      health = maxHealth;
-      lives--;
+      removeLife();
     }
   }
   
@@ -32,6 +31,19 @@ class Player extends Entity {
   
   void AddScore() {
     score++;
+  }
+  
+  void removeLife() {
+    lives--;
+    health = maxHealth;
+    score = 0;
+    if (lives > 0) {
+      gameStage = 5;
+    }
+    else {
+      lives = 5;      
+      gameStage = 6;
+    }
   }
   
   void Draw() {

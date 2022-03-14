@@ -4,12 +4,17 @@ void Start(int numOfEnemies[], int playButtonDiameter) {
   text("(at least 3, backspace to delete last number)", width / 2 - 350, height / 3 + 65);
   textSize(60);
   text("Write number of enemies", width / 6 - 17, height / 3);
+  
+  fill(220,80,100);
   if (numOfEnemies[1] != 0 || (numOfEnemies[0] != 0 && numOfEnemies[1] == 0 && countOfInputs == 2)) {
     text(numOfEnemies[0], width / 2 - 38, height / 2 + 65);
     text(numOfEnemies[1], width / 2, height / 2 + 65);
   } else if (numOfEnemies[0] != 0) {
     text(numOfEnemies[0], width / 2, height / 2 + 65);
   }
+  strokeWeight(3);
+  stroke(150,255,255);
+  fill(200);
   ellipse(width / 2, height - height / 5, playButtonDiameter, playButtonDiameter);
   fill(0);
   text("PLAY", width / 2 - 72, height - height / 5 + 20);
@@ -83,18 +88,44 @@ void DrawScore(int score, int x_offset, int y_offset) {
   }
 }
 
-void FinalScreen(/*Player pj, win condition*/){
+void DrawTimer() {
+  textSize(45);
+  fill(50,100,200);
+  text("Time: " + (timePerLevel - gameTime) , 3*width/7 ,height - 40);  
+}
 
+void DeathScreen() {
+  background(20);
+  fill(255);
+  textSize(70);
+  fill(250,100,100);
+  text("YOU DIED", width/3 ,height / 2);
+}
+
+void LoadScreen() {
+  background(50);
+  fill(255);
+  textSize(50);
+  fill(200,60,170);
+  text("Collect " + objectNum + " orbs to defeat the boss", width/8 ,height / 2);
+}
+
+void FinalScreen(Player pj) {
+  background(50);
+  fill(255);
+  textSize(70);
+  fill(50,200,200);
+  text("YOU WON!", width/3 ,height / 2);
+
+  textSize(45);
+  fill(50,100,200);
+  text("score: " + pj.returnScore() , 3*width/7 ,height / 2 + 100);
+}
+
+void GameOverScreen() {
+  background(0);
   fill(255);
   textSize(60);
-  //if(Win){
-    text("YOU WON!!!", width / 2 - 170 ,height / 2);
-  //}else{
-    //text("GAME OVER", width / 2 - 180 ,height / 2);
-  //}
-  
-  textSize(40);
-  text("score: " + 20 , width / 2 - 100 ,height / 2 + 100);
-
-
+  fill(250,50,50);
+  text("GAME OVER", width/3 ,height / 2);
 }

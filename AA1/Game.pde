@@ -1,4 +1,5 @@
 void SetupStage1() { 
+  player.SetPos(new PVector(width/2,player.returnRadius()*2));
   for (int i = 0; i < enemyNum; i++) {
     enemy[i] = new Enemy(i % 3);
   }
@@ -8,6 +9,9 @@ void SetupStage1() {
   }
   
   object[0] = SpawnObject(new PVector(random(20,width),random(20,height)));
+  
+  levelBeat = false;
+  startTime = millis();
 }
 
 
@@ -22,6 +26,8 @@ void SetupStage2() {
   for (int i = 0; i < objectNum; i++) {
     object[i] = SpawnObject(new PVector(random(20,width),random(20,height)));
   }
+  
+  startTime = millis();  
 }
 
 
@@ -82,14 +88,19 @@ void PlayerLoop() {
     }
   }
   
-  player.UpdateDamageCooldown();
-  player.Draw();
-  
+  gameTime = (millis() - startTime) / 1000;
+  if (gameTime >= timePerLevel) {
+    player.removeLife();
+  }
+
   if (levelBeat && player.returnPos().y > height-15 && (player.returnPos().x > width/2-width/8 && player.returnPos().x < width/2+width/8)) {
     levelBeat = false;
     gameStage++;
     SetupStage2();
   }
+  
+  player.UpdateDamageCooldown();
+  player.Draw();
 }
 
 
@@ -180,7 +191,7 @@ void ObjectLoop() {
     }    
     
     i++;
-  } while(i < objectNum && gameStage == 2);
+  } while(i < objectNum && gameStage == 3);
   
   if (score && objectsRemaining <= 1) {
     levelBeat = true;
@@ -200,4 +211,5 @@ void InterfaceLoop() {
   if (player.returnScore() > 0) {
     DrawScore(player.returnScore(), 0, 0);
   }
+  DrawTimer();
 }
