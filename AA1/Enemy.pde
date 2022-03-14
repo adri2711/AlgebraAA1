@@ -1,15 +1,14 @@
 class Enemy extends Entity{
   int type; // 0: attack 1: run 2: wander 
   final float collisionMargin = 19; //Epsilon
-  boolean alive = true;
 
   Enemy(int type) {
     this.type = type;
-    radius = 10.0;
+    radius = 7;
     
     speed = random(minSpeed,maxSpeed);
     if (type == 1) {
-      speed = -(speed/2);
+      speed = -(speed*0.7);
     }
     else if (type == 2) {
       speed /= 2;
@@ -34,11 +33,6 @@ class Enemy extends Entity{
     }
   }
 
-  boolean CheckCollision(Entity target) {
-    float magnitude = DistanceToEntity(target);
-    return (magnitude < target.radius+radius);
-  }
-
   void Draw() {
     if (type == 0) {
       stroke(200, 20, 50);
@@ -54,19 +48,11 @@ class Enemy extends Entity{
     }
     
     strokeWeight(5);
-    ellipse(Pos.x, Pos.y, 10, 10);
-  }
-  
-  void Kill() {
-    alive = false;
+    ellipse(Pos.x, Pos.y, radius*2, radius*2);
   }
   
   void SetSpeed(float speed) {
     this.speed = speed;
-  }
-  
-  boolean isAlive() {
-    return alive;
   }
   
   float returnSpeed() {

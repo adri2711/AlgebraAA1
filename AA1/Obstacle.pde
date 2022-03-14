@@ -1,11 +1,11 @@
 class Obstacle {
 
   int sides;
-  float strokeWeight;
-  float rotation;
+  float diameter;
   PVector position[];
-  float translatePosition[];
+  PVector translatePosition;
   float randomSize[];
+  int colors[] = new int [3];
 
   Obstacle(int sides) {
     this.sides = sides;
@@ -13,67 +13,110 @@ class Obstacle {
   }
 
   void SelectShape() {
-
+    
+    for(int i = 0; i < 3; i++){      
+        colors[i] = (int)random(256);
+    } 
+    
     switch(sides) {
     case 0:
-      strokeWeight = random(15, 60);
+      diameter = random(60, 90);
       position = new PVector[1];
-      position[0] = new PVector(random(width), random(height));
+      position[0] = new PVector(random(width / 8, (width - width / 8)  - diameter), random(height / 8, (height - height / 8) - diameter));
       break;
 
-    case 1:
-      position = new PVector[3];
-      position = DrawShapes(50);
-      /*translatePosition = new float[2];
-      translatePosition[0] = random(width);
-      translatePosition[1] = random(height);   */       
-      rotation = random(361);          
+    case 1:      
+      int randomValue = (int)random(20, 90); 
+      randomSize = new float[2];
+      randomSize[0] = randomValue;
+      randomSize[1] = randomValue;
+      translatePosition = new PVector();
+      translatePosition.x = (int)random(width / 8, (width - width / 8) - randomValue);
+      translatePosition.y = (int)random(height / 8, (height - height / 8) - randomValue);  
       break;
 
     case 2:         
       randomSize = new float[2];
-      randomSize[0] = random(180);
-      randomSize[1] = random(180);
-      translatePosition = new float[2];
-      translatePosition[0] = random(width - randomSize[0]);
-      translatePosition[1] = random(height - randomSize[1]);
-      rotation = random(361);
+      randomSize[0] = random(20, 90);
+      randomSize[1] = random(20, 90);
+      translatePosition = new PVector();
+      translatePosition.x = (int)random(width / 8, (width - width / 8) - randomSize[0]);
+      translatePosition.y = (int)random(height / 8, (height - height / 8) - randomSize[1]);  
       break;
     }
   }  
 
-  PVector[] DrawShapes(int num) {
-
-    PVector point1 = new PVector(random(width - num), random(height - num));
-    PVector points[] = new PVector[3];
-    points[0] = point1;
-
-    for (int i = 1; i < 3; i++) {
-      points[i] = new PVector(random((points[0].x + num) - (points[0].x - num) + 1) + (points[0].x - num), random((points[0].y + num) - (points[0].y - num) + 1) + (points[0].y - num));
-    }    
-    return points;
-  }
-
-
   void DrawShape() {
-
     switch(sides) {
     case 0:
-      strokeWeight(strokeWeight);
-      point(position[0].x, position[0].y);
+      stroke(colors[0], colors[1], colors[2]);
+      fill(colors[0], colors[1], colors[2]);      
+      ellipse(position[0].x, position[0].y, diameter, diameter);
       break;
 
     case 1:
-      //translate(translatePosition[0], translatePosition[1]);
-      rotate(rotation);
-      triangle(position[0].x, position[0].y, position[1].x, position[1].y, position[2].x, position[2].y);
-      break;
-
     case 2:
-      translate(translatePosition[0], translatePosition[1]);   
-      rotate(rotation);
+      translate(translatePosition.x, translatePosition.y);   
+      stroke(colors[0], colors[1], colors[2]);
+      fill(colors[0], colors[1], colors[2]);
       rect(0, 0, randomSize[0], randomSize[1]);
+      translate(-translatePosition.x, -translatePosition.y);
       break;
     }
+  }
+
+  char CheckCollision(Entity pj){
+      
+    switch(sides){
+    
+    case 0:
+      if(sqrt(pow(position[0].x - pj.returnPos().x,2) + pow(position[0].y - pj.returnPos().y,2)) <= diameter / 2 + pj.returnRadius()){
+        return 's';
+      }
+      break;
+      
+    case 1:
+    case 2:
+      if ((sqrt(pow(translatePosition.x - pj.returnPos().x, 2) + pow(translatePosition.y - pj.returnPos().y, 2))) <= pj.returnRadius()||
+        (sqrt(pow((translatePosition.x + randomSize[0]) - pj.returnPos().x, 2) + pow(translatePosition.y - pj.returnPos().y, 2))) <= pj.returnRadius()||
+        (sqrt(pow((translatePosition.x + randomSize[0]) - pj.returnPos().x, 2) + pow((translatePosition.y + randomSize[1]) - pj.returnPos().y, 2))) <= pj.returnRadius()||
+        (sqrt(pow(translatePosition.x - pj.returnPos().x, 2) + pow((translatePosition.y + randomSize[1]) - pj.returnPos().y, 2))) <= pj.returnRadius()) {
+        return 's';
+      }
+      
+      else if(pj.returnPos().x + pj.returnRadius() >= translatePosition.x && pj.returnPos().x - pj.returnRadius() <= translatePosition.x + randomSize[0] && pj.returnPos().y + pj.returnRadius() >= translatePosition.y && pj.returnPos().y - pj.returnRadius() <= translatePosition.y + randomSize[1]){
+        if(pj.returnPos().x + pj.returnRadius() <= translatePosition.x + pj.returnRadius() || pj.returnPos().x - pj.returnRadius() >= translatePosition.x + randomSize[0] - pj.returnRadius()){
+          return 'h';
+        }
+        
+        else if(pj.returnPos().y + pj.returnRadius() <= translatePosition.y + pj.returnRadius() || pj.returnPos().y - pj.returnRadius() >= translatePosition.y + randomSize[1] - pj.returnRadius()){
+          return  'v';
+        }
+      }
+      
+      break;    
+    }  
+   return 'n';  
+  }
+  
+  char CheckIfSpawnInside(Entity pj){
+      
+    switch (sides){
+      
+      case 0:
+        if(sqrt(pow(position[0].x - pj.returnPos().x,2) + pow(position[0].y - pj.returnPos().y,2)) <= diameter / 2 + pj.returnRadius()){
+        return 's';
+      }
+      break;
+      
+      case 1:
+      case 2:
+      if(pj.returnPos().x + pj.returnRadius() >= translatePosition.x && pj.returnPos().x - pj.returnRadius() <= translatePosition .x + randomSize[0] && pj.returnPos().y + pj.returnRadius() >=  translatePosition.y && pj.returnPos().y - pj.returnRadius() <= translatePosition.y + randomSize[1]){
+        text('c', 40 ,120);
+        return 'c';
+      } 
+      break;    
+    }      
+    return 'n';    
   }
 }
