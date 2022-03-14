@@ -1,16 +1,27 @@
+  boolean goUp = false;
+  boolean goDown = false;
+  boolean goRight = false;
+  boolean goLeft = false;
+
 void SetupStage1() { 
+  int ellipseCounter = 0;
   player = new Player(5, 5);
   player.SetPos(new PVector(width/2, player.returnRadius()*2));
-  
+
   for (int i = 0; i < enemyNum; i++) {
     enemy[i] = new Enemy(i % 3);
   }
 
   for (int i = 0; i < obstacleNum; i++) {
-    obstacle[i] = new Obstacle(i % 3);
+    int rand = 0;  
+    do {
+      rand = (int)random(3);
+      ellipseCounter++;
+    } while (rand == 0 && ellipseCounter >= obstacleNum / 2);
+    obstacle[i] = new Obstacle(rand);
   }
 
-  object[0] = SpawnObject(new PVector(random(20, width), random(20, height)));
+  object[0] = SpawnObject(new PVector(random(20, width - 20), random(20, height - 20)));
 
   levelBeat = false;
   bossAlive = false;
@@ -27,7 +38,7 @@ void SetupStage2() {
   } 
 
   for (int i = 0; i < objectNum; i++) {
-    object[i] = SpawnObject(new PVector(random(20, width), random(20, height)));
+    object[i] = SpawnObject(new PVector(random(20, width - 20), random(20, height - 20)));
   }
 
   for (int i = 0; i < projectileNum; i++) {
@@ -57,7 +68,7 @@ Object SpawnObject(PVector Pos) {
   if (!inObject) {
     return object;
   } else {
-    return SpawnObject(new PVector(random(20, width), random(20, height)));
+    return SpawnObject(Pos);
   }
 }
 
@@ -72,8 +83,25 @@ void ObstacleLoop() {
 
 
 void PlayerLoop() {
-  //movement
-  player.ChangeTarget(new PVector(mouseX, mouseY));
+  PVector arrowDirection = new PVector(player.Pos.x, player.Pos.y);
+
+  if (!goUp && !goDown && !goRight && !goLeft) {
+    player.ChangeTarget(new PVector(mouseX, mouseY));
+  } else {
+    if (goUp) {
+      arrowDirection.y--;
+    }
+    else if (goDown) {
+      arrowDirection.y++;
+    }
+    if (goRight) {
+      arrowDirection.x++;
+    }
+    else if (goLeft) {
+      arrowDirection.x--;
+    }    
+    player.ChangeTarget(arrowDirection);
+  }  
   player.Move();
 
   //wall collision
@@ -111,8 +139,6 @@ void PlayerLoop() {
   player.UpdateDamageCooldown();
   player.Draw();
 }
-
-
 
 void BossLoop() {
   if (boss.isAlive()) {
