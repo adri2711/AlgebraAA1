@@ -1,7 +1,7 @@
 PImage heart;
 final int obstacleNum = 12;
 final int objectNum = 4;
-final int projectileNum = 8;
+final int projectileNum = 24;
 final int timePerLevel = 99999;
 Enemy[] enemy;
 Obstacle[] obstacle = new Obstacle[obstacleNum];

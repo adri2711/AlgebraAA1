@@ -118,9 +118,10 @@ void BossLoop() {
   }
 
   if (boss.AttackTime()) {
-    float angle = random(0, 45);
-    for (int i = 0; i < projectile.length; i++) {
-      angle += 45;
+    float angle = random(15, 45);
+    float burstAmount = 360.0f/angle;
+    for (int i = 0; i < burstAmount; i++) {
+      angle += 360/burstAmount;
       projectile[i] = new Projectile(new PVector(width/2, height/2), angle, 10);
     }
   }
@@ -198,6 +199,14 @@ void ProjectileLoop() {
       projectile[i].UpdateProjectileTarget();
       projectile[i].Move();
       projectile[i].Draw();
+
+      //player collision
+      if (projectile[i].CheckCollision(player)) {
+        projectile[i].Kill();
+        if (player.returnDamageCooldown() == 0) {
+          player.Damage();
+        }
+      }
     }
   }
 }
