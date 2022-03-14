@@ -1,5 +1,5 @@
 void SetupStage1() { 
-  player.SetPos(new PVector(width/2,player.returnRadius()*2));
+  player.SetPos(new PVector(width/2, player.returnRadius()*2));
   for (int i = 0; i < enemyNum; i++) {
     enemy[i] = new Enemy(i % 3);
   }
@@ -7,27 +7,35 @@ void SetupStage1() {
   for (int i = 0; i < obstacleNum; i++) {
     obstacle[i] = new Obstacle(i % 3);
   }
-  
-  object[0] = SpawnObject(new PVector(random(20,width),random(20,height)));
-  
+
+  /*float angle = -90;
+  for (int i = 0; i < projectile.length; i++) {
+    angle += 15;
+    projectile[i] = new Projectile(new PVector(width/2, height/2), angle, 10);
+  }*/
+
+  object[0] = SpawnObject(new PVector(random(20, width), random(20, height)));
+
   levelBeat = false;
+  bossAlive = false;
   startTime = millis();
 }
 
 
 
 void SetupStage2() {
-  player.SetPos(new PVector(width/2,player.returnRadius()*2));
-  
+  player.SetPos(new PVector(width/2, player.returnRadius()*2));
+
   for (int i = 0; i < enemyNum; i++) {
     enemy[i].Kill();
   }  
-  
+
   for (int i = 0; i < objectNum; i++) {
-    object[i] = SpawnObject(new PVector(random(20,width),random(20,height)));
+    object[i] = SpawnObject(new PVector(random(20, width), random(20, height)));
   }
-  
-  startTime = millis();  
+
+  bossAlive = true;
+  startTime = millis();
 }
 
 
@@ -35,7 +43,7 @@ void SetupStage2() {
 Object SpawnObject(PVector Pos) {
   boolean inObject = false;
   Object object = new Object(Pos);
-  
+
   int i = 0;
   while (i < obstacleNum && !inObject) {
     if (obstacle[i].CheckIfSpawnInside(object) != 'n') {
@@ -43,12 +51,11 @@ Object SpawnObject(PVector Pos) {
     }
     i++;
   }
-  
+
   if (!inObject) {
     return object;
-  }
-  else {
-    return SpawnObject(new PVector(random(20,width),random(20,height)));
+  } else {
+    return SpawnObject(new PVector(random(20, width), random(20, height)));
   }
 }
 
@@ -66,7 +73,7 @@ void PlayerLoop() {
   //movement
   player.ChangeTarget(new PVector(mouseX, mouseY));
   player.Move();
-  
+
   //wall collision
   if (player.returnPos().x > width - player.returnRadius()) {
     player.Collide('h');
@@ -80,14 +87,14 @@ void PlayerLoop() {
   if (player.returnPos().y < player.returnRadius()) {
     player.Collide('v');
   }
-  
+
   //obstacle collision
   for (int j = 0; j < obstacleNum; j++) {
     if (obstacle[j].CheckCollision(player) != 'n') {
       player.Collide(obstacle[j].CheckCollision(player));
     }
   }
-  
+
   gameTime = (millis() - startTime) / 1000;
   if (gameTime >= timePerLevel) {
     player.removeLife();
@@ -98,7 +105,7 @@ void PlayerLoop() {
     gameStage++;
     SetupStage2();
   }
-  
+
   player.UpdateDamageCooldown();
   player.Draw();
 }
@@ -106,7 +113,6 @@ void PlayerLoop() {
 
 
 void BossLoop() {
-  
 }
 
 
@@ -134,7 +140,7 @@ void EnemyLoop() {
       }
       //Agressive
       else {
-        if (random(0,10) < 1) {
+        if (random(0, 10) < 1) {
           enemy[i].ChangeTarget(player.returnPos());
         }
       }
@@ -150,7 +156,7 @@ void EnemyLoop() {
           player.Damage();
         }
       }
-      
+
       //wall collision
       if (enemy[i].returnPos().x > width - enemy[i].returnRadius()) {
         enemy[i].Collide('h');
@@ -164,15 +170,21 @@ void EnemyLoop() {
       if (enemy[i].returnPos().y < enemy[i].returnRadius()) {
         enemy[i].Collide('v');
       }
-  
+
 
       //Draw    
       enemy[i].Draw();
     }
-  }  
+  }
 }
 
-
+void ProjectileLoop() {
+  for (int i = 0; i < projectile.length; i++) {
+    projectile[i].UpdateProjectileTarget();
+    projectile[i].Move();
+    projectile[i].Draw();
+  }
+}
 
 void ObjectLoop() {
   int i = 0;
@@ -182,25 +194,25 @@ void ObjectLoop() {
     if (object[i].isAlive()) {
       object[i].Draw();
       objectsRemaining++;
-      
+
       if (object[i].CheckCollision(player)) {
         player.AddScore();
         object[i].Kill();
         score = true;
       }
     }    
-    
+
     i++;
-  } while(i < objectNum && gameStage == 3);
-  
+  } while (i < objectNum && gameStage == 3);
+
   if (score && objectsRemaining <= 1) {
     levelBeat = true;
   }
-  
+
   if (levelBeat) {
-    fill(100,220,100);
-    stroke(50,200,50);  
-    rect(width/2-width/8,height-15,width/4,15);
+    fill(100, 220, 100);
+    stroke(50, 200, 50);  
+    rect(width/2-width/8, height-15, width/4, 15);
   }
 }
 

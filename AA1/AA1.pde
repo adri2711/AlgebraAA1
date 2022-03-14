@@ -1,15 +1,18 @@
 PImage heart;
 final int obstacleNum = 12;
 final int objectNum = 4;
-final int timePerLevel = 20;
+final int timePerLevel = 99999;
 Enemy[] enemy;
 Obstacle[] obstacle = new Obstacle[obstacleNum];
 Object[] object = new Object[objectNum];
 Player player;
+Boss boss;
+Projectile[] projectile = new Projectile[5];
 int startTime;
 int gameTime;
 
 int gameStage = 0;
+boolean bossAlive = false;
 boolean levelBeat = false;
 int numOfEnemies[];
 int enemyNum;
@@ -26,67 +29,68 @@ void setup() {
 }
 
 void draw() {
-    
+
   switch (gameStage) {
-    case 0:
-      background(0,0,0);
-      Start(numOfEnemies, playButtonDiameter);
+  case 0:
+    background(0, 0, 0);
+    Start(numOfEnemies, playButtonDiameter);
     break;
-    
-    case 1:
-      background(10,30,40);
-      ObstacleLoop();
-      PlayerLoop();
-      EnemyLoop();
-      ObjectLoop();
-      InterfaceLoop();
+
+  case 1:
+    background(10, 30, 40);
+    ObstacleLoop();
+    PlayerLoop();
+    EnemyLoop();
+    ObjectLoop();
+    InterfaceLoop();
     break;
-    
-    case 2:
-      LoadScreen();
-      screenTime++;
-      if (screenTime > 200) {
-        gameStage++;
-        screenTime = 0;
-      }
+
+  case 2:
+    LoadScreen();
+    screenTime++;
+    if (screenTime > 200) {
+      gameStage++;
+      screenTime = 0;
+    }
     break;
-    
-    case 3:
-      background(40,5,20);
-      ObstacleLoop();
-      PlayerLoop();
-      BossLoop();
-      EnemyLoop();
-      ObjectLoop();
-      InterfaceLoop();
+
+  case 3:
+    background(40, 5, 20);
+    ObstacleLoop();
+    PlayerLoop();
+    BossLoop();
+    ProjectileLoop();
+    EnemyLoop();
+    ObjectLoop();
+    InterfaceLoop();
     break;    
-    
-    case 4:
-      FinalScreen(player);
-      screenTime++;
-      if (screenTime > 500) {
-        gameStage = 0;
-        screenTime = 0;
-      }
+
+  case 4:
+    FinalScreen(player);
+    screenTime++;
+    if (screenTime > 500) {
+      gameStage = 0;
+      screenTime = 0;
+    }
     break;
-        
-    case 5:
-      DeathScreen();
-      screenTime++;
-      if (screenTime > 200) {
-        gameStage = 1;
-        SetupStage1();
-        screenTime = 0;
-      }      
+
+  case 5:
+    DeathScreen();
+    screenTime++;
+    if (screenTime > 200) {
+      gameStage = 1;
+      SetupStage1();
+      screenTime = 0;
+    }      
     break;
-    
-    case 6:
-      GameOverScreen();
-      screenTime++;
-      if (screenTime > 500) {
-        gameStage = 0;
-        screenTime = 0;
-      }        
+
+  case 6:
+    GameOverScreen();
+    screenTime++;
+    if (screenTime > 500) {
+      gameStage = 0;
+      screenTime = 0;
+    }        
     break;
   }
 }
