@@ -1,21 +1,23 @@
 class Boss extends Entity{
 
   int health;
-  PVector shootDirections[];
+  float angle;
+  float timerAttack;
+  float auxTime;
   
   Boss(){
   
     health = 4;
-    shootDirections = new PVector [] {new PVector(),new PVector(),new PVector(),new PVector()};
-    //radius = 20;
-     
-  
+    Pos = new PVector(width / 2, height - height / 6);
+    radius = 20;  
+    timerAttack = 4000;
   }
-  
-  void Shoot(){  
+
+  boolean AttackTime(){
+    auxTime = millis();
     
+    if()
+    return 
   
-  }
-
-
+  }  
 }

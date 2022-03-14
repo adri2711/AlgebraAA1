@@ -23,7 +23,7 @@ void SetupStage1() {
 
 
 
-void SetupStage2() {
+void SetupStage2() {  
   player.SetPos(new PVector(width/2, player.returnRadius()*2));
 
   for (int i = 0; i < enemyNum; i++) {
